@@ -10,22 +10,20 @@ use uuid::Uuid;
 
 use crate::{
     client::{
-        address::{Address, CreateAddressInput, UpdateAddressInput},
-        asset::{Asset, AssetId, CreateAssetInput, UpdateAssetInput},
-        case::{Case, CreateCaseInput, UpdateCaseInput},
         configuration::{RewardConfiguration, StakeConfiguration},
+        entities::{
+            address::{Address, CreateAddressInput, UpdateAddressInput},
+            asset::{Asset, AssetId, CreateAssetInput, UpdateAssetInput},
+            case::{Case, CreateCaseInput, UpdateCaseInput},
+            reporter::{CreateReporterInput, Reporter, UpdateReporterInput},
+        },
         interface::HapiCoreOptions,
-        reporter::{CreateReporterInput, Reporter, UpdateReporterInput},
         result::{ClientError, Result, Tx},
     },
     HapiCore,
 };
 
-mod conversion;
-mod error;
-pub mod token;
-
-use error::map_ethers_error;
+use super::error::map_ethers_error;
 
 abigen!(
     HAPI_CORE_CONTRACT,

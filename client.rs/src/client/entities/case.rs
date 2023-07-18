@@ -2,7 +2,7 @@ use serde::Serialize;
 use std::str::FromStr;
 use uuid::Uuid;
 
-use super::result::ClientError;
+use crate::client::result::ClientError;
 
 #[derive(Default, Clone, PartialEq, Debug, Serialize)]
 pub enum CaseStatus {
@@ -65,7 +65,7 @@ pub struct UpdateCaseInput {
 
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct Case {
-    #[serde(with = "super::uuid")]
+    #[serde(with = "crate::client::uuid")]
     pub id: Uuid,
     pub name: String,
     pub url: String,

@@ -2,7 +2,7 @@ use serde::Serialize;
 use std::str::FromStr;
 use uuid::Uuid;
 
-use super::{amount::Amount, result::ClientError};
+use crate::client::{amount::Amount, result::ClientError};
 
 #[derive(Default, Clone, PartialEq, Debug, Serialize)]
 pub enum ReporterRole {
@@ -126,7 +126,7 @@ pub struct UpdateReporterInput {
 
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct Reporter {
-    #[serde(with = "super::uuid")]
+    #[serde(with = "crate::client::uuid")]
     pub id: Uuid,
     pub account: String,
     pub role: ReporterRole,

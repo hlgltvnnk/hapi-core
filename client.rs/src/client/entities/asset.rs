@@ -72,9 +72,9 @@ pub struct UpdateAssetInput {
 pub struct Asset {
     pub address: String,
     pub asset_id: AssetId,
-    #[serde(with = "super::uuid")]
+    #[serde(with = "crate::client::uuid")]
     pub case_id: Uuid,
-    #[serde(with = "super::uuid")]
+    #[serde(with = "crate::client::uuid")]
     pub reporter_id: Uuid,
     pub risk: u8,
     pub category: Category,
