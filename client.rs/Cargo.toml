@@ -25,3 +25,7 @@ ethers = "2"
 ethers-providers = "2"
 ethers-signers = "2"
 ethers-contract = "2"
+
+# Solana dependencies
+anchor-client = "0.24"
+solana-cli-config = "1"

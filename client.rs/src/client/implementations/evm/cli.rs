@@ -117,7 +117,8 @@ macro_rules! handle_call {
     };
 }
 
-#[async_trait]
+//TODO: remove (?Send)
+#[async_trait(?Send)]
 impl HapiCore for HapiCoreEvm {
     fn is_valid_address(&self, address: &str) -> Result<()> {
         address

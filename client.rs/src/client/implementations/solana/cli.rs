@@ -1,4 +1,16 @@
+use std::str::FromStr;
+
+use anchor_client::{
+    solana_sdk::{
+        pubkey::Pubkey,
+        signature::{read_keypair_file, Keypair},
+    },
+    Client, Cluster, Program,
+};
+use solana_cli_config::{Config, CONFIG_FILE};
+
 use async_trait::async_trait;
+use std::rc::Rc;
 
 use crate::{
     client::{
@@ -9,21 +21,40 @@ use crate::{
             case::{Case, CreateCaseInput, UpdateCaseInput},
             reporter::{CreateReporterInput, Reporter, UpdateReporterInput},
         },
+        interface::HapiCoreOptions,
         result::{Result, Tx},
         token::TokenContract,
     },
     Amount, HapiCore,
 };
 
-pub struct HapiCoreSolana {}
+pub struct HapiCoreSolana {
+    contract: Program,
+}
 
 impl HapiCoreSolana {
-    pub fn new() -> Result<Self> {
-        Ok(Self {})
+    //TODO: bubble errors
+    pub fn new(options: HapiCoreOptions) -> Result<Self> {
+        let program_id = options.contract_address.parse::<Pubkey>().unwrap();
+
+        let cluster = Cluster::from_str(&options.provider_url).unwrap();
+
+        let payer = if let Some(pk) = options.private_key {
+            Keypair::from_base58_string(&pk)
+        } else {
+            let cli_config = Config::load(&CONFIG_FILE.as_ref().unwrap()).unwrap();
+            read_keypair_file(cli_config.keypair_path).unwrap()
+        };
+
+        let client = Client::new(cluster, Rc::new(payer));
+        let program = client.program(program_id);
+
+        Ok(Self { contract: program })
     }
 }
 
-#[async_trait]
+//TODO: remove (?Send)
+#[async_trait(?Send)]
 impl HapiCore for HapiCoreSolana {
     fn is_valid_address(&self, _address: &str) -> Result<()> {
         unimplemented!()

@@ -129,8 +129,9 @@ impl TryFrom<&ArgMatches> for HapiCoreCommandContext {
             HapiCoreNetwork::Sepolia | HapiCoreNetwork::Ethereum | HapiCoreNetwork::Bsc => {
                 Box::new(HapiCoreEvm::new(options)?)
             }
-            HapiCoreNetwork::Solana => Box::new(HapiCoreSolana::new()?),
-            HapiCoreNetwork::Bitcoin => Box::new(HapiCoreSolana::new()?),
+            HapiCoreNetwork::Solana | HapiCoreNetwork::Bitcoin => {
+                Box::new(HapiCoreSolana::new(options)?)
+            }
             HapiCoreNetwork::Near => Box::new(HapiCoreNear::new()?),
         };
 
