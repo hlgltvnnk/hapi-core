@@ -58,7 +58,7 @@ export function killValidator() {
 }
 
 async function prepareValidator() {
-  console.log("==> Building and deploying program");
+  console.log("==> Deploying program");
 
   const wallet = KEYS.admin.path;
   const programDir = __dirname + "/../../solana";

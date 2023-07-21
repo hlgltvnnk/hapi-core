@@ -29,3 +29,8 @@ ethers-contract = "2"
 # Solana dependencies
 anchor-client = "0.24"
 solana-cli-config = "1"
+
+[dev-dependencies]
+spl-associated-token-account = "1"
+spl-token = "3"
+# solana-client = "1.9"
