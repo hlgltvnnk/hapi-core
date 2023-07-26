@@ -1,7 +1,3 @@
-use std::str::FromStr;
-
-// use solana_client::nonblocking::rpc_client::RpcClient;
-
 use anchor_client::{
     solana_sdk::{
         pubkey::Pubkey,
@@ -10,6 +6,7 @@ use anchor_client::{
     Client, Cluster, Program,
 };
 use solana_cli_config::{Config, CONFIG_FILE};
+use std::str::FromStr;
 
 use async_trait::async_trait;
 use std::rc::Rc;

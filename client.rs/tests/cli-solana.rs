@@ -2,7 +2,7 @@ use serde_json::json;
 use std::{thread::sleep, time::Duration};
 
 mod assert;
-mod evm;
+mod cmd_utils;
 mod solana;
 
 use solana::{fixtures::*, setup::Setup};
