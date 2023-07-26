@@ -21,7 +21,7 @@ use crate::{
             reporter::{CreateReporterInput, Reporter, UpdateReporterInput},
         },
         interface::HapiCoreOptions,
-        result::{Result, Tx},
+        result::{ClientError, Result, Tx},
         token::TokenContract,
     },
     Amount, HapiCore,
@@ -32,17 +32,27 @@ pub struct HapiCoreSolana {
 }
 
 impl HapiCoreSolana {
-    //TODO: bubble errors
     pub fn new(options: HapiCoreOptions) -> Result<Self> {
-        let program_id = options.contract_address.parse::<Pubkey>().unwrap();
+        let program_id = options
+            .contract_address
+            .parse::<Pubkey>()
+            .map_err(|e| ClientError::SolanaAddressParse(format!("`contract-address`: {e}")))?;
 
-        let cluster = Cluster::from_str(&options.provider_url).unwrap();
+        let cluster = Cluster::from_str(&options.provider_url)
+            .map_err(|e| ClientError::UrlParseError(format!("`provider-url`: {e}")))?;
 
         let payer = if let Some(pk) = options.private_key {
             Keypair::from_base58_string(&pk)
         } else {
-            let cli_config = Config::load(&CONFIG_FILE.as_ref().unwrap()).unwrap();
-            read_keypair_file(cli_config.keypair_path).unwrap()
+            let default_config = CONFIG_FILE
+                .as_ref()
+                .ok_or(ClientError::AbsentDefaultConfig)?;
+
+            let cli_config = Config::load(default_config)
+                .map_err(|e| ClientError::UnableToLoadConfig(e.to_string()))?;
+
+            read_keypair_file(cli_config.keypair_path)
+                .map_err(|e| ClientError::SolanaKeypairFile(format!("`keypair-path`: {e}")))?
         };
 
         let client = Client::new(cluster, Rc::new(payer));

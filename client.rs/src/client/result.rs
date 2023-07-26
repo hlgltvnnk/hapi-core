@@ -10,6 +10,16 @@ pub enum ClientError {
     EthAddressParse(String),
     #[error("Ethers error: {0}")]
     Ethers(String),
+
+    #[error("Solana address parse error: {0}")]
+    SolanaAddressParse(String),
+    #[error("Unable to identify default solana config")]
+    AbsentDefaultConfig,
+    #[error("Unable to load solana config: {0}")]
+    UnableToLoadConfig(String),
+    #[error("Unable to read keypair file: {0}")]
+    SolanaKeypairFile(String),
+
     #[error("Provider error: {0}")]
     Provider(#[from] ethers_providers::ProviderError),
     #[error("Contract data parsing error: {0}")]
