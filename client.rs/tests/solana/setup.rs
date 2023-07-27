@@ -28,7 +28,7 @@ use crate::cmd_utils::*;
 const VALIDATOR_PORT: u16 = 8899;
 
 pub struct Setup {
-    data: TestData,
+    pub data: TestData,
     cli: RpcClient,
 }
 
@@ -51,7 +51,7 @@ fn shut_down_existing_validator() {
         println!("==> Killing the node: {pid} [{VALIDATOR_PORT}]");
         ensure_cmd(
             Command::new("kill")
-                .args([&pid.to_string()])
+                .args(["-9", &pid.to_string()])
                 .stderr(Stdio::null()),
         )
         .unwrap();
@@ -301,6 +301,10 @@ impl Setup {
             stdout: "".to_string(),
             stderr: "".to_string(),
         })
+    }
+
+    pub fn print(&self, message: &str) {
+        println!("==> {message} [{}]", VALIDATOR_PORT);
     }
 
     // pub async fn get_tx(&self, hash: &str) -> Transaction {
