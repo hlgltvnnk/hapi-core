@@ -10,7 +10,7 @@ crate-type = ["lib"]
 name = "hapi_core"
 
 [dependencies]
-async-trait = "0.1"
+async-trait = "0.1.72"
 thiserror = "1"
 tokio = { version = "1", features = ["full"] }
 anyhow = { version = "1" }
@@ -27,10 +27,12 @@ ethers-signers = "2"
 ethers-contract = "2"
 
 # Solana dependencies
-anchor-client = "0.24"
-solana-cli-config = "1"
+anchor-client = { git = "https://github.com/hlgltvnnk/anchor.git", branch = "update-dependencies", feature = [
+    "async",
+] }
+solana-cli-config = { git = "https://github.com/hlgltvnnk/solana.git", branch = "update-dependencies" }
+
 
 [dev-dependencies]
-spl-associated-token-account = "1"
-spl-token = "3"
-# solana-client = "1.9"
+# spl-associated-token-account = "1"
+# spl-token = "3"

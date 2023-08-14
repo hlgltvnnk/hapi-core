@@ -12,7 +12,7 @@ use super::{
 };
 
 //TODO: remove (?Send)
-#[async_trait(?Send)]
+#[async_trait]
 pub trait HapiCore {
     fn is_valid_address(&self, address: &str) -> Result<()>;
 

@@ -24,7 +24,7 @@ impl HapiCoreNear {
 }
 
 //TODO: remove (?Send)
-#[async_trait(?Send)]
+#[async_trait]
 impl HapiCore for HapiCoreNear {
     fn is_valid_address(&self, _address: &str) -> Result<()> {
         unimplemented!()

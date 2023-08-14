@@ -19,6 +19,8 @@ pub enum ClientError {
     UnableToLoadConfig(String),
     #[error("Unable to read keypair file: {0}")]
     SolanaKeypairFile(String),
+    #[error("Unable to initialize client: {0}")]
+    UnableToInitializeClient(anchor_client::ClientError),
 
     #[error("Provider error: {0}")]
     Provider(#[from] ethers_providers::ProviderError),

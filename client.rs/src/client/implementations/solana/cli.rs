@@ -9,7 +9,7 @@ use solana_cli_config::{Config, CONFIG_FILE};
 use std::str::FromStr;
 
 use async_trait::async_trait;
-use std::rc::Rc;
+use std::sync::Arc;
 
 use crate::{
     client::{
@@ -28,7 +28,7 @@ use crate::{
 };
 
 pub struct HapiCoreSolana {
-    contract: Program,
+    contract: Program<Arc<Keypair>>,
 }
 
 impl HapiCoreSolana {
@@ -55,15 +55,15 @@ impl HapiCoreSolana {
                 .map_err(|e| ClientError::SolanaKeypairFile(format!("`keypair-path`: {e}")))?
         };
 
-        let client = Client::new(cluster, Rc::new(payer));
-        let program = client.program(program_id);
+        let client = Client::new(cluster, Arc::new(payer));
+        let program = client.program(program_id).unwrap();
 
         Ok(Self { contract: program })
     }
 }
 
 //TODO: remove (?Send)
-#[async_trait(?Send)]
+#[async_trait]
 impl HapiCore for HapiCoreSolana {
     fn is_valid_address(&self, _address: &str) -> Result<()> {
         unimplemented!()
