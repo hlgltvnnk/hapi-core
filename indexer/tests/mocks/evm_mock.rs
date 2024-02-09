@@ -22,7 +22,7 @@ pub const CONTRACT_ADDRESS: &str = "0x2947F98C42597966a0ec25e92843c09ac18Fbab7";
 
 abigen!(
     HAPI_CORE_CONTRACT,
-    "../evm/artifacts/contracts/HapiCore.sol/HapiCore.json"
+    "../client.rs/src/client/implementations/evm/abi/HapiCore.json"
 );
 
 pub struct EvmMock {
